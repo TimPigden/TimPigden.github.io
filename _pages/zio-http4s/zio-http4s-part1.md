@@ -4,6 +4,8 @@ title: ZIO and Http4s with auth, codecs and zio-test
 description: First part of zio http4s blog
 ---
 
+# DRAFT - STILL WORK IN PROGRESS!
+
 There are a couple of sample projects already in existence showing you how to use zio with http4s as a server. So why another?
 
 What this adds to the mix is an http4s Authentication/Authorization example and an example of custom encoding and decoding.  And tests are written using the zio-test module.
