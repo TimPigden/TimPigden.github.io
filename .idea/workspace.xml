@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/TimPigden.github.io.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_posts/2019-09-22-welcome-to-jekyll.markdown" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_posts/2019-09-22-zio-http4s.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/about.markdown" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.markdown" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    <list default="true" id="f5662b93-ab7c-471e-a3f4-f13494ed203a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/_layouts/post.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/wip-2019-09-24-zio-http4s-part2.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part1.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/another-page.md" beforeDir="false" afterPath="$PROJECT_DIR$/another-page.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,14 +22,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MacroExpansionManager">
-    <option name="directoryName" value="WVmltPBS" />
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectId" id="1RCAzzzTJs1Fem0mSVecIFSa7QL" />
+  <component name="ProjectId" id="1RIfSsa6eA8KTWorFRaKQTsq0wt" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -49,7 +43,18 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="MarkdownNavigator.Settings.Editor" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="sbt.project.settings.configurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/_pages/zio-http4s" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/_pages/zio-http4s" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -66,10 +71,29 @@
   <component name="SbtLocalSettings">
     <option name="projectSyncType">
       <map>
-        <entry key="$PROJECT_DIR$/../vrp-all/fourSquareJsonToCSV" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../atlas-develop" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../data-processing/wrap" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../finch-template-master" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../functional-scala" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../http4s" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../http4s/examples" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../magnolia-json" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../monix-sample" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../older-vrp-all/vrp-all-master-b38be5fb7f6ea7a38de7bad1bda2f4156224ae3b/vrp" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../red-book" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../scalar-2018-typelevel-workshop-master" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../scalaz-metrics" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../scalaz-metrics-master" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../scalaz-zio" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../typelevel-todomvc-develop" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../vrp-all/framework" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../vrp-all/geo" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../vrp-all/lagomapps" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../vrp-all/misc-apps" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../vrp-all/new-base" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../vrp-all/newapps" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../vrp-all/optrak-utils" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../vrp-all/scalautils" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../vrp-all/vrp-new" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../zio" value="PREVIEW" />
         <entry key="$PROJECT_DIR$/../zio-http4s-examples" value="PREVIEW" />
@@ -78,17 +102,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="" />
-      <created>1569160970623</created>
+      <changelist id="f5662b93-ab7c-471e-a3f4-f13494ed203a" name="Default Changelist" comment="" />
+      <created>1569359533133</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1569160970623</updated>
-      <workItem from="1569160971786" duration="1638000" />
-      <workItem from="1569168256453" duration="4116000" />
-      <workItem from="1569236881828" duration="2245000" />
-      <workItem from="1569249215876" duration="778000" />
-      <workItem from="1569254935280" duration="3377000" />
-      <workItem from="1569312244521" duration="455000" />
+      <updated>1569359533133</updated>
+      <workItem from="1569359534239" duration="320000" />
+      <workItem from="1569360030978" duration="2125000" />
     </task>
     <servers />
   </component>

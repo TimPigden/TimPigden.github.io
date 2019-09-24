@@ -1,0 +1,146 @@
+I"e8<h1 id="zio-and-http4s-with-auth-codecs-and-zio-test">ZIO and Http4s with auth, codecs and zio-test</h1>
+
+<p>There are a couple of sample projects already in existence showing you how to use zio with http4s as a server. So why another?</p>
+
+<p>What this adds to the mix is an http4s Authentication/Authorization example and an example of custom encoding and decoding.  And tests are written using the zio-test module.</p>
+
+<p>For a detailed description of the various libraries you should head on over to the relevant pages. However, if, like me, you sometimes struggle a bit to get everything working together, then this may help.</p>
+
+<p>I will not attempt to explain or argue for either of these libraries, but briefly, ZIO is the latest in a series of scala effects libraries which includes cats.IO and Monix. Http4s is a popular typelevel web framework based on the Blaze server (there is also a client).</p>
+
+<p>The github project contains 4 sets of services that can be treated as a progression from simplest to most complex:</p>
+
+<ul>
+  <li>Hello1 is a very basis “hello world” web service</li>
+  <li>Hello2 adds an authentication layer.</li>
+  <li>Hello3 is expands 1 with a custom encoding and decoding of an xml object, using scala xml</li>
+  <li>Hello combines 2 &amp; 3</li>
+</ul>
+
+<p>Today’s blog covers Service1 and testing using the new zio-test framework.</p>
+
+<h1 id="hello">Hello!</h1>
+
+<p>Service1 is a simple service comprising a single endpoint at the root with a GET return text “hello!”</p>
+
+<p>ZIO provides us with Task[T], which is defined as ZIO[Any, Throwable, T]. See the documentation on ZIO interop packages and in particular interop.cats for a general explanation of this</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">Hello1Service</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">dsl</span> <span class="k">=</span> <span class="nc">Http4sDsl</span><span class="o">[</span><span class="kt">Task</span><span class="o">]</span>
+  <span class="k">import</span> <span class="nn">dsl._</span>
+
+  <span class="k">val</span> <span class="nv">service</span> <span class="k">=</span> <span class="nv">HttpRoutes</span><span class="o">.</span><span class="py">of</span><span class="o">[</span><span class="kt">Task</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">GET</span> <span class="o">-&gt;</span> <span class="nc">Root</span> <span class="k">=&gt;</span> <span class="nc">Ok</span><span class="o">(</span><span class="s">"hello!"</span><span class="o">)</span>
+  <span class="o">}.</span><span class="py">orNotFound</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The http4s dsl import is required to provide various implicits of type [Task]</p>
+
+<p>For the service we create a single route returning Ok(“hello!). The orNotFound serves to provide a page 404 in the event of an incorrect url path.</p>
+
+<p>So HelloService.service provides the HttpRoutes. This is then encapsulated within the server, which looks like this:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">object</span> <span class="nc">Hello1</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">val</span> <span class="nv">server</span> <span class="k">=</span> <span class="nv">ZIO</span><span class="o">.</span><span class="py">runtime</span><span class="o">[</span><span class="kt">Environment</span><span class="o">]</span>
+    <span class="o">.</span><span class="py">flatMap</span> <span class="o">{</span>
+      <span class="k">implicit</span> <span class="n">rts</span> <span class="k">=&gt;</span>
+        <span class="nc">BlazeServerBuilder</span><span class="o">[</span><span class="kt">Task</span><span class="o">]</span>
+          <span class="o">.</span><span class="py">bindHttp</span><span class="o">(</span><span class="mi">8080</span><span class="o">,</span> <span class="s">"localhost"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">withHttpApp</span><span class="o">(</span><span class="nv">Hello1Service</span><span class="o">.</span><span class="py">service</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">serve</span>
+          <span class="o">.</span><span class="py">compile</span>
+          <span class="o">.</span><span class="py">drain</span>
+    <span class="o">}</span>
+    
+   <span class="k">def</span> <span class="nf">run</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">=</span>
+    <span class="nv">server</span><span class="o">.</span><span class="py">fold</span><span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="mi">1</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="mi">0</span><span class="o">)</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>In this case App is the ZIO App which provides access to the ZIO runtime. The run method runs the server, with fold return 1 in the event of an error and 0 for normal termination.</p>
+
+<p>To construct BlazeSErverBuilder[Task] we need an in-scope ConcurrentEffect. This is provided by the ZIO runtime - which is simply and effectful call to get the ZIO runtime object from the environment.<br />
+Note, within the BlazeServerBuilder we are binding to localhost:8080</p>
+
+<p>The .withHttpApp(Hello1Service.service) is defining the service we run.</p>
+
+<p>That’s it. Get the code and run Hello1, try it out in the browser with http://localhost:8080</p>
+
+<h1 id="testing-the-service">Testing the service</h1>
+
+<h2 id="testing-testhello1service-directly">Testing TestHello1Service directly</h2>
+
+<p>You can unit test the service without starting up the Blaze server and web browser.
+The following code illustrates this</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">zhx.servers</span>
+
+<span class="k">import</span> <span class="nn">org.http4s._</span>
+<span class="k">import</span> <span class="nn">zio._</span>
+<span class="k">import</span> <span class="nn">zio.interop.catz._</span>
+<span class="k">import</span> <span class="nn">zio.test._</span>
+<span class="k">import</span> <span class="nn">zio.test.Assertion._</span>
+
+<span class="k">object</span> <span class="nc">TestHello1Service</span> <span class="k">extends</span> <span class="nc">DefaultRunnableSpec</span> <span class="o">(</span>
+  <span class="nf">suite</span><span class="o">(</span><span class="s">"routes suite"</span><span class="o">)(</span>
+    <span class="nf">testM</span><span class="o">(</span><span class="s">"root request returns Ok"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">for</span> <span class="o">{</span>
+        <span class="n">response</span> <span class="k">&lt;-</span> <span class="nv">Hello1Service</span><span class="o">.</span><span class="py">service</span><span class="o">.</span><span class="py">run</span><span class="o">(</span><span class="nc">Request</span><span class="o">[</span><span class="kt">Task</span><span class="o">](</span><span class="nv">Method</span><span class="o">.</span><span class="py">GET</span><span class="o">,</span> <span class="n">uri</span><span class="s">"/"</span><span class="o">))</span>
+      <span class="o">}</span> <span class="k">yield</span> <span class="nf">assert</span><span class="o">(</span><span class="nv">response</span><span class="o">.</span><span class="py">status</span><span class="o">,</span> <span class="nf">equalTo</span><span class="o">(</span><span class="nv">Status</span><span class="o">.</span><span class="py">Ok</span><span class="o">))</span>
+    <span class="o">},</span>
+    <span class="nf">testM</span><span class="o">(</span><span class="s">"root request returns Ok, using assertM insteat"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nf">assertM</span><span class="o">(</span><span class="nv">Hello1Service</span><span class="o">.</span><span class="py">service</span><span class="o">.</span><span class="py">run</span><span class="o">(</span><span class="nc">Request</span><span class="o">[</span><span class="kt">Task</span><span class="o">](</span><span class="nv">Method</span><span class="o">.</span><span class="py">GET</span><span class="o">,</span> <span class="n">uri</span><span class="s">"/"</span><span class="o">)).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">status</span><span class="o">),</span>
+      <span class="nf">equalTo</span><span class="o">(</span><span class="nv">Status</span><span class="o">.</span><span class="py">Ok</span><span class="o">))</span>
+    <span class="o">},</span>
+    <span class="nf">testM</span><span class="o">(</span><span class="s">"root request returns NotFound"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nf">assertM</span><span class="o">(</span><span class="nv">Hello1Service</span><span class="o">.</span><span class="py">service</span><span class="o">.</span><span class="py">run</span><span class="o">(</span><span class="nc">Request</span><span class="o">[</span><span class="kt">Task</span><span class="o">](</span><span class="nv">Method</span><span class="o">.</span><span class="py">GET</span><span class="o">,</span> <span class="n">uri</span><span class="s">"/a"</span><span class="o">)).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">status</span><span class="o">),</span>
+        <span class="nf">equalTo</span><span class="o">(</span><span class="nv">Status</span><span class="o">.</span><span class="py">NotFound</span><span class="o">))</span>
+    <span class="o">},</span>
+    <span class="nf">testM</span><span class="o">(</span><span class="s">"root request body returns hello!"</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">io</span> <span class="k">=</span> <span class="k">for</span><span class="o">{</span>
+        <span class="n">response</span> <span class="k">&lt;-</span> <span class="nv">Hello1Service</span><span class="o">.</span><span class="py">service</span><span class="o">.</span><span class="py">run</span><span class="o">(</span><span class="nc">Request</span><span class="o">[</span><span class="kt">Task</span><span class="o">](</span><span class="nv">Method</span><span class="o">.</span><span class="py">GET</span><span class="o">,</span> <span class="n">uri</span><span class="s">"/"</span><span class="o">))</span>
+        <span class="n">body</span> <span class="k">&lt;-</span> <span class="nv">response</span><span class="o">.</span><span class="py">body</span><span class="o">.</span><span class="py">compile</span><span class="o">.</span><span class="py">toVector</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toChar</span><span class="o">).</span><span class="py">mkString</span><span class="o">(</span><span class="s">""</span><span class="o">))</span>
+      <span class="o">}</span><span class="k">yield</span> <span class="n">body</span>
+      <span class="nf">assertM</span><span class="o">(</span><span class="n">io</span><span class="o">,</span> <span class="nf">equalTo</span><span class="o">(</span><span class="s">"hello!"</span><span class="o">))</span>
+    <span class="o">}</span>
+
+  <span class="o">))</span>
+</code></pre></div></div>
+
+<p>For those of you familiar with Specs2 or ScalaTest, this will look broadly familiar in shape. However, it uses neither of these libraries, instead using
+DefaultRunnableSpec from the zio-test package (check out the build.sbt file to see how that is defined, also this link XXXXX)</p>
+
+<p>The zio test module has no dependencies other than on ZIO itself. It contains assert and assertM statements, plus scala-check like generators.
+Note that you need to combine successive asserts with &amp;&amp; for them both to run and report properly - unlike scalaTest for example.</p>
+
+<p>Each test executes the route directly, with Hello1Service.service.run, providing an appropriate url.<br />
+This returns a Task[Response[Task] The status is extracted from the response with .map and compared to the expected answer using equalTo.</p>
+
+<p>The first example uses a for comprehension. The value response is therefore a Response[Task]. This is checked with assert.</p>
+
+<p>The alternative version assertM expects a ZIO[…] as its first argument. It is particularly useful for one-line checks. The for comprehension is better suited to multi-part operations.</p>
+
+<p>Our first test requests a GET of “/”, which, as expected, returns a status of OK. Url /a gives us a NotFound since there was no match. The 3rd test
+is slightly more elaborate. First, we do our request then we extract the body of the response - this is standard http4s. First the body is “compiled” which
+unpacks the stream of bytes that are turned into a Vector[Byte] with toVector. These are then turned into chars and finally our vector of chars is
+turned into a string with mkString.
+the val io is thus a Task[String] and this is compared with assertM.</p>
+
+<h2 id="testing-with-curl">Testing with curl</h2>
+
+<p>If you start up the Hello1 server you can test with curl. Both the following work:</p>
+
+<p>Try the following if you have curl installed</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:8080/  # returns hello!
+curl localhost:8080/a # returns NotFound
+</code></pre></div></div>
+
+<h2 id="testing-with-http4s-client">Testing with Http4s Client</h2>
+
+<p>In addition to the server we are already using, Http4s provides a client.</p>
+:ET
