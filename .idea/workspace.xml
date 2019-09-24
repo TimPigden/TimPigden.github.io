@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f5662b93-ab7c-471e-a3f4-f13494ed203a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/_layouts/post.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/wip-2019-09-24-zio-http4s-part2.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part1.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/another-page.md" beforeDir="false" afterPath="$PROJECT_DIR$/another-page.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
-    </list>
+    <list default="true" id="f5662b93-ab7c-471e-a3f4-f13494ed203a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +25,9 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1RIfSsa6eA8KTWorFRaKQTsq0wt" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -109,7 +104,23 @@
       <updated>1569359533133</updated>
       <workItem from="1569359534239" duration="320000" />
       <workItem from="1569360030978" duration="2125000" />
+      <workItem from="1569362376675" duration="306000" />
     </task>
+    <task id="LOCAL-00001" summary="new theme, wip">
+      <created>1569362449251</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1569362449251</updated>
+    </task>
+    <task id="LOCAL-00002" summary="new theme, wip">
+      <created>1569362532506</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1569362532506</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,5 +138,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="new theme, wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="new theme, wip" />
   </component>
 </project>
