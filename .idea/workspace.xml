@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="" />
+    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/CODEOWNERS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/no-response.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/settings.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/stale.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/markdown-navigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/07/e63b54aa2479fa4f7d9d02383fe5c1c117a04f59bc88e1870337e28319a5c7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/22/ced07efc5056f05c1d46fa5bf3c2b6331c5a918bceae77b382b118f46ec03d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/2d/5a1cf5e9dda891882b524062eb12055a5a34ea0a8c4861460cab0e24041344" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/64/1f8e275f7b63ba3688e385d6623883d15f8283453ac4aecac0d6d855a897f8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/7b/a6a87a3786354065eb2e1de697a5bccad4d621e1201c38b8ae4fed6a8a9dd1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/7d/61351dc022a065f7ee5bb53b6c46c5a21df52f3c83024f3ddb933576a5c514" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/b5/04f2674393d66371ff98735dcceb8685d6799f8743a0a304dd87212fef8489" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/b7/8a26ef85032bfc0b3a3a8ce8e6908c6d1fe0cc30c406c14762b1bdedef21c5" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/bb/d9f8958a5af015b9962a5de956d0a690eaddf0314aa5f87644482734a1ef5e" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/e3/b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/f4/83c746099a2834442ee1f2c8c56e8ebd2fee68489a86c36ba6bb3850cde53d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.rubocop.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_layouts/default.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_layouts/post.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part1.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_sass/jekyll-theme-cayman.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_sass/normalize.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_sass/rouge-github.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_sass/variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/another-page.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/CODE_OF_CONDUCT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/CONTRIBUTING.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/SUPPORT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jekyll-theme-cayman.gemspec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/bootstrap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/cibuild" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/release" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/server" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/validate-html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/thumbnail.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/zio-http4s-part1.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TimPigden.github.io.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cayman.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_posts/2019-09-22-welcome-to-jekyll.markdown" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_posts/wip-zio-http4s.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/zio-http4s/wip-2019-09-24-zio-http4s-part2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/about.markdown" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.markdown" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,16 +128,8 @@
       <workItem from="1569236881828" duration="2245000" />
       <workItem from="1569249215876" duration="778000" />
       <workItem from="1569254935280" duration="3377000" />
-      <workItem from="1569312244521" duration="696000" />
+      <workItem from="1569312244521" duration="455000" />
     </task>
-    <task id="LOCAL-00001" summary="push to save current work, wip example is being imporved">
-      <created>1569312928465</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1569312928465</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -98,7 +149,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="push to save current work, wip example is being imporved" />
-    <option name="LAST_COMMIT_MESSAGE" value="push to save current work, wip example is being imporved" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml" />
   </component>
 </project>
