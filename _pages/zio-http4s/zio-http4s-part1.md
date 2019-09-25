@@ -1,10 +1,10 @@
 ---
 layout: default
-title: ZIO and Http4s with auth, codecs and zio-test
-description: First part of zio http4s blog
+title: ZIO, Http4s, Auth, Codecs and zio-test
+description: Examples of use of ZIO with the http4s library, illustrating http4s authentication, custom codes and testing with zio-test
 ---
 
-#  ZIO and Http4s with auth, codecs and zio-test, Part 1
+# Part 1
 
 ### Why Another ZIO/Http4s Client Example?
 
@@ -19,7 +19,7 @@ Http4s is a popular typelevel web framework based on the Blaze server (there is 
 
 ### These examples
 
-The github project contains 4 sets of services that can be treated as a progression from simplest to most complex:
+The [github project](https://github.com/TimPigden/zio-http4s-examples) contains 4 sets of services that can be treated as a progression from simplest to most complex:
 
 * Hello1 is a very basis "hello world" web service
 * Hello2 adds an authentication layer.
@@ -201,3 +201,11 @@ object TestHello1 extends DefaultRunnableSpec(
 Here the testM passes the actual test - an anonymous function - to testClientM to execute.
 
 Note that the server needs to be running to execute this test.
+
+# Resources
+
+* [This project](https://github.com/TimPigden/zio-http4s-examples)
+* [ZIO microsite](https://zio.dev/) - this contains references to further zio examples
+* [Http4s](https://http4s.org/)
+
+
