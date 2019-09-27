@@ -76,7 +76,7 @@ object Hello1 extends App {
 
 In this case App is the ZIO App which provides access to the ZIO runtime. The run method runs the server, with fold return 1 in the event of an error and 0 for normal termination.
 
-To construct BlazeSErverBuilder[Task] we need an in-scope ConcurrentEffect. This is provided by the ZIO runtime - which is simply and effectful call to get the ZIO runtime object from the environment.  
+To construct BlazeServerBuilder[Task] we need an in-scope ConcurrentEffect. This is provided by the ZIO runtime - which is simply and effectful call to get the ZIO runtime object from the environment.  
 Note, within the BlazeServerBuilder we are binding to localhost:8080
 
 The .withHttpApp(Hello1Service.service) is defining the service we run.
@@ -125,7 +125,7 @@ object TestHello1Service extends DefaultRunnableSpec (
 ```
 
 For those of you familiar with Specs2 or ScalaTest, this will look broadly familiar in shape. However, it uses neither of these libraries, instead using
-DefaultRunnableSpec from the zio-test package (check out the build.sbt file to see how that is defined, also this link XXXXX)
+DefaultRunnableSpec from the zio-test package (check out the build.sbt file to see how that is defined, also [this link](https://github.com/zio/zio/blob/master/docs/usecases/testing.md)
 
 The zio test module has no dependencies other than on ZIO itself. It contains assert and assertM statements, plus scala-check like generators.
 Note that you need to combine successive asserts with && for them both to run and report properly - unlike scalaTest for example.
