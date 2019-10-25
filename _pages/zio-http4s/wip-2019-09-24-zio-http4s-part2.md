@@ -1,11 +1,12 @@
 ---
 layout: default
 title: ZIO and Http4s with auth, codecs and zio-test: Part2
-description: First part of zio http4s blog
+description: second part of zio http4s blog
 ---
 
-
 # Hello2
+
+Note this is WORK-IN-PROGRESS! Expect an update shortly
 
 Obviously "hello1" is not particularly interesting by iteself. In our second example we will show how to authenticate our request and pass an authentication object to the service.
 

@@ -153,54 +153,6 @@ curl localhost:8080/  # returns hello!
 curl localhost:8080/a # returns NotFound
 ```
 
-## Testing with Http4s Client
-
-In addition to the server we are already using, Http4s provides a client. We can use it to test our web server. Note that full testing at this level
-may not be strictly necessary - we have already tested the individual service end points. However,
-this enables us to ensure the server itself is functioning and is also a useful template
-for testing other services.
-
-First we create a convenience method to take care of creating the BlazeClientBuilder:
-```scala
-object ClientTest {
-
-  def testClientM[R](fClient: Client[Task] => Task[TestResult])
-  : Task[TestResult] =
-    ZIO.runtime[Any].flatMap { implicit rts =>
-      val exec = rts.Platform.executor.asEC
-      BlazeClientBuilder[Task](exec).resource.use { client =>
-        fClient(client)
-      }
-    }
-}
-```
-We need access to the ZIO.runtime for 2 reasons:
-
-Firstly, we want to use the runtime's execution context (val exec above)
-rather than global. While not particularly important within this test, it would be more relevant
-if the Client was constructed in main.
-
-Secondly, it requires an implicit ConcurrentEffect.
-
-Having got the Client object we run the function fClient which returns a Task[TestResult]
-
-The test itself is another DefaultRunnableSpec
-```scala
-object TestHello1 extends DefaultRunnableSpec(
-
-  suite("routes suite")(
-    testM("test get") {
-      ClientTest.testClientM { client =>
-        val req = Request[Task](Method.GET, uri"http://localhost:8080/")
-        assertM(client.status(req), equalTo(Status.Ok))
-      }
-    }
-  )
-)
-```
-Here the testM passes the actual test - an anonymous function - to testClientM to execute.
-
-Note that the server needs to be running to execute this test.
 
 # Resources
 

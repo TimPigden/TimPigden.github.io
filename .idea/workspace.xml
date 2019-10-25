@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_pages/zio-http4s/wip-2019-09-24-zio-http4s-part2.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/zio-http4s/wip-2019-09-24-zio-http4s-part2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part1.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part1.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +25,11 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1RCAzzzTJs1Fem0mSVecIFSa7QL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -31,18 +40,6 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="MarkdownNavigator.Settings.Editor" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SbtLocalSettings">
     <option name="projectSyncType">
@@ -71,6 +68,9 @@
       <workItem from="1569254935280" duration="3377000" />
       <workItem from="1569312244521" duration="455000" />
       <workItem from="1569401162802" duration="4877000" />
+      <workItem from="1569589879357" duration="792000" />
+      <workItem from="1569832500251" duration="16000" />
+      <workItem from="1572000972016" duration="2920000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml">
       <created>1569401099477</created>
@@ -107,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569409800075</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix typos missing link">
+      <created>1569590069621</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1569590069621</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +137,7 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="tidy up front page" />
-    <option name="LAST_COMMIT_MESSAGE" value="tidy up front page" />
+    <MESSAGE value="fix typos missing link" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix typos missing link" />
   </component>
 </project>
