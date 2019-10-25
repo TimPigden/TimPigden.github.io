@@ -11,4 +11,6 @@ Essentially I'm writing up my own exploratory tests. I hope it's of use to you!
 # ZIO with http4s
 * [ZIO, http4s Part 1 - basic Http4s Server and Service testing](_pages/zio-http4s/zio-http4s-part1.md).
 * [ZIO, http4s Part 2 - testing with http4s Client](_pages/zio-http4s/zio-http4s-part2.md).
+* [ZIO, http4s Part 3 - WORK IN PROGRESS Adding Authentication](_pages/zio-http4s/zio-http4s-part3.md).
+
 
