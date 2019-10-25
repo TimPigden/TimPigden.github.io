@@ -24,7 +24,7 @@ in the following, it may be of interest to you:
 
 Versions used are ZIO 1.0-RC15 with Zio-interop 2.0.0.0-RC6 and http4s 0.20.10
 
-[Article](./pages/zio-http4s/intro.md)
+[Article](_pages/zio-http4s/intro.md)
 
 
 
