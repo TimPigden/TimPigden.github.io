@@ -29,7 +29,7 @@ The [github project](https://github.com/TimPigden/zio-http4s-examples) contains 
 * Hello1 is a very basis "hello world" web service
 * Hello2 adds an authentication layer.
 * Hello3 is expands 1 with a custom encoding and decoding of an xml object, using scala xml
-* Hello combines 2 & 3
+* Hello4 combines 2 & 3
 
 The blob is broken into
 * [ZIO, http4s Part 1 - basic Http4s Server and Service testing](zio-http4s-part1.md).
