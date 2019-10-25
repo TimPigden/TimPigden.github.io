@@ -4,31 +4,7 @@ title: ZIO, Http4s, Auth, Codecs and zio-test
 description: Examples of use of ZIO with the http4s library, illustrating http4s authentication, custom codes and testing with zio-test
 ---
 
-# Part 1
-
-### Why Another ZIO/Http4s Client Example?
-
-There are a couple of sample projects already in existence showing you how to use zio with http4s as a server. So why another?
-
-What this adds to the mix is an http4s Authentication/Authorization example and an example of custom encoding and decoding.  And tests are written using the zio-test module.
-
-For a detailed description of the various libraries you should head on over to the relevant pages. However, if, like me, you sometimes struggle a bit to get everything working together, then this may help.
-
-I will not attempt to explain either of these libraries, but briefly, ZIO is the latest in a series of scala effects libraries which includes cats.IO and Monix.
-Http4s is a popular typelevel web framework based on the Blaze server (there is also a client).
-
-### These examples
-
-The [github project](https://github.com/TimPigden/zio-http4s-examples) contains 4 sets of services that can be treated as a progression from simplest to most complex:
-
-* Hello1 is a very basis "hello world" web service
-* Hello2 adds an authentication layer.
-* Hello3 is expands 1 with a custom encoding and decoding of an xml object, using scala xml
-* Hello combines 2 & 3
-
-Today's blog covers Hello1 and testing using the new zio-test framework.
-
-# Hello!
+# Part 1 - Hello! A simple server
 
 Service1 is a simple service comprising a single endpoint at the root with a GET return text "hello!"
 
