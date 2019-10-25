@@ -9,4 +9,6 @@ The aim of this blog is to add descriptions and worked examples of usage of vari
 Essentially I'm writing up my own exploratory tests. I hope it's of use to you!
 
 # ZIO with http4s
-* [ZIO, http4s with auth, codes and zio-test - Part 1](_pages/zio-http4s/zio-http4s-part1.md).
+* [ZIO, http4s Part 1 - basic Http4s Server and Service testing](_pages/zio-http4s/zio-http4s-part1.md).
+* [ZIO, http4s Part 2 - testing with http4s Client](_pages/zio-http4s/zio-http4s-part2.md).
+
