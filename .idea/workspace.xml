@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="split out blog on testing with client">
+    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="updated idnex">
+      <change afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part4.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part3.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part3.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +24,9 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1RCAzzzTJs1Fem0mSVecIFSa7QL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -68,7 +72,7 @@
       <workItem from="1569401162802" duration="4877000" />
       <workItem from="1569589879357" duration="792000" />
       <workItem from="1569832500251" duration="16000" />
-      <workItem from="1572000972016" duration="3293000" />
+      <workItem from="1572000972016" duration="7717000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml">
       <created>1569401099477</created>
@@ -119,7 +123,21 @@
       <option name="project" value="LOCAL" />
       <updated>1572004001044</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="updated idnex">
+      <created>1572004277276</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1572004277276</updated>
+    </task>
+    <task id="LOCAL-00009" summary="updated idnex">
+      <created>1572004358096</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1572004358096</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,12 +162,13 @@
     <MESSAGE value="tidy up front page" />
     <MESSAGE value="fix typos missing link" />
     <MESSAGE value="split out blog on testing with client" />
-    <option name="LAST_COMMIT_MESSAGE" value="split out blog on testing with client" />
+    <MESSAGE value="updated idnex" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated idnex" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572004279209">
+    <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572004359604">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004279209" />
+    <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004359604" />
   </component>
 </project>

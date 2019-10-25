@@ -27,10 +27,9 @@ class Hello2Service[R <: Authenticator] {
 ```
 
 The first thing is that we have a class that takes a type parameter. In this case R is a ZIO Environment. Please see the ZIO documentation and blogs for an explanation of environment. In this case
-our environment need.
+our environment needs to contain a single thing - an Authenticator
 
 ## Authenticator
-s to contain a single thing - an Authenticator
 
 ```scala
 object Authenticator {
@@ -195,8 +194,7 @@ So we have got most of the moving parts. But how do we link them all together?
 ```scala
 
 object Hello2 extends App with AuthenticationMiddleware {
-
-  type AppEnvironment = Clock with Console with Authenticator with Blocking
+  type AppEnvironment = Authenticator with Clock
 
   val hello2Service = new Hello2Service[AppEnvironment] {}
 
@@ -218,20 +216,16 @@ object Hello2 extends App with AuthenticationMiddleware {
     }
 
   val server = server1
-    .provideSome[Environment] { base =>
-      new Clock with Console with Blocking with Authenticator {
+    .provideSome[ZEnv] { base =>
+      new  Authenticator with Clock {
         override val clock: Clock.Service[Any] = base.clock
-        override val console: Console.Service[Any] = base.console
-        override val blocking: Blocking.Service[Any] = base.blocking
 
         override def authenticatorService: Authenticator.Service = Authenticator.friendlyAuthenticator
       }
     }
-    
-  def run(args: List[String]): ZIO[Environment, Nothing, Int] =
+
+  def run(args: List[String]): ZIO[ZEnv, Nothing, Int] =
     server.foldM(err => putStrLn(s"execution failed with $err") *> ZIO.succeed(1), _ => ZIO.succeed(0))
-
-
 }
 ```
 
@@ -239,8 +233,8 @@ This has suddenly got rather more complicated.
 
 Our App is extended with AuthenticationMiddleware, which means our types line up.
 
-Next we need to define an Environment that includes Authenticator.
-These are the elements of the standard ZIO environment we need, plus Authenticator.
+Next we need to define an Environment that includes Authenticator. In addition it needs Clock
+because this supplies Timer which is needed by the http4s server (implicitly provided via *import zio.interop.catz._*).
 
 We create the new hello2Service instance of the right type parameterisation.
 
@@ -260,3 +254,80 @@ part into 2 for clarity - first creating server1 which requires AppEnvironment, 
 ZIO .provideSome to give it the Authenticator service
 
 ## Testing
+
+For testing, we will just test against *hello2Service*. "e need a mechanism to insert authentication into the requests.
+Back in AuthenticationHeaders, I created just such a method:
+```scala
+object AuthenticationHeaders {
+  def addAuthentication[Tsk[_]](request: Request[Tsk], username: String, password: String): Request[Tsk] =
+    request.withHeaders(request.headers.put(Header("Authorization", s"$username $password")))
+}
+```
+Unlike Hello1Service, which was a static object, Hello2Service was created as a class since it
+is likely to be used with different *R* environment values. For testing, I've created an object
+to provide the service to test.
+```scala
+object Middlewares {
+  val withMiddleware = new AuthenticationMiddleware {
+    override type AppEnvironment = Authenticator
+  }
+
+  val hello2Service1 = new Hello2Service[Authenticator]
+  
+  val hello2Service = Router[withMiddleware.AppTask](
+  ("" -> withMiddleware.authenticationMiddleware(hello2Service1.service)))
+    .orNotFound
+}
+```
+Essentially this mirrors the code in our Hello2 server.
+
+This is then called directly from our individual tests:
+```scala
+suite("routes suite") (
+
+    testM("root request returns forbidden") {
+      val io = hello2Service.run(Request[withMiddleware.AppTask](Method.GET, uri"/"))
+        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
+      assertM(io.map(_.status),
+        equalTo(Status.Forbidden)) // will fail if nothing there
+    },
+
+    testM("root request with authentication returns ok") {
+      val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/")
+      val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
+      val io = hello2Service.run(req)
+        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
+      assertM(io.map(_.status), equalTo(Status.Ok)) // will fail if nothing there
+    }
+    ,
+    testM("unmapped request returns not found") {
+      val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/a")
+      val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
+      val io = hello2Service.run(req)
+        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
+      assertM(io.map(_.status), equalTo(Status.NotFound))
+    }
+    ,
+    testM("root request body returns hello!") {
+      val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/")
+      val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
+      val io = hello2Service.run(req)
+      val iop = (for {
+        request <- io
+        body <- request.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
+      } yield body)
+        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
+      assertM(iop, equalTo("hello! tim"))
+    }
+    ,
+    testM("bad password gives forbidden") {
+      val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/")
+      val req = AuthenticationHeaders.addAuthentication(req1, "tim", "frond")
+      val io = hello2Service.run(req)
+        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
+      assertM(io.map(_.status), equalTo(Status.Forbidden))
+    }
+
+  )
+```
+
