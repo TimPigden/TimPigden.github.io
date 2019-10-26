@@ -49,12 +49,12 @@ is to keep down the number of external dependencies.
 
 ### The rest of this article
 The remainder of this article is split into the following sections:
-* [Schema generation](_pages/magnolia-avro/schema.md)
-* [Avro Writer](_pages/magnolia-avro/avro-writer.md)
-* [Avro Reader](_pages/magnolia-avro/avro-reader.md)
-* [Collections](_pages/magnolia-avro/collections.md)
-* [Date and time](_pages/magnolia-avro/datetime.md)
-* [Serialization](_pages/magnolia-avro/serialization.md)
+* [Schema generation](schema.md)
+* [Avro Writer](avro-writer.md)
+* [Avro Reader](avro-reader.md)
+* [Collections](collections.md)
+* [Date and time](datetime.md)
+* [Serialization](serialization.md)
 
 ## Source Code
 All source code, including build.sbt can be found
