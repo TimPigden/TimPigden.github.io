@@ -30,6 +30,8 @@ Versions used are ZIO 1.0-RC15 with Zio-interop 2.0.0.0-RC6 and http4s 0.20.10
 Set of blog articles exploring the use of the magnolia automatic typeclass generation
 to generate schemas and read and write binary data using the Avro library.
 
+[Article](_pages/magnolia-avro/intro.md)
+
 
 
 

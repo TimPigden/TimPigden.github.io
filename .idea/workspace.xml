@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="plug for zio">
+    <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="updated index.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +73,7 @@
       <workItem from="1569832500251" duration="16000" />
       <workItem from="1572000972016" duration="7717000" />
       <workItem from="1572081383119" duration="373000" />
-      <workItem from="1572081807269" duration="16398000" />
+      <workItem from="1572081807269" duration="16660000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml">
       <created>1569401099477</created>
@@ -186,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572100770909</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="updated index.md">
+      <created>1572101026576</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1572101026576</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,15 +225,16 @@
     <MESSAGE value="fixing links" />
     <MESSAGE value="magnolia-avro blog" />
     <MESSAGE value="plug for zio" />
-    <option name="LAST_COMMIT_MESSAGE" value="plug for zio" />
+    <MESSAGE value="updated index.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated index.md" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572100772904">
+    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572101028806">
       <screen x="70" y="27" width="1850" height="1173" />
     </state>
     <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004359604" />
     <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024872475" />
-    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572100772904" />
+    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572101028806" />
     <state x="2020" y="150" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1572024854325">
       <screen x="1920" y="50" width="2560" height="1440" />
     </state>
