@@ -66,6 +66,10 @@ The above system is set up to write multiple records of the same schema.
   }
 ```
 
+NB This code lacks the try/catch usually needed for files. The reason is that it was taken from
+our company codebase and simplified because we use [ZIO](https://zio.dev/) effects library
+and wrap the various bits in ZIO.Managed to ensure proper closing in the event of failure.
+
 ## Usage
 The following test method illustrates usage:
 ```scala
@@ -87,6 +91,7 @@ The following test method illustrates usage:
     writeReadBackFile(List(iSet1, iSet0), new File("data/avro/testout.avro"))
   }
 ```
+
 
 ## Schema Registry
 Another possibility is to use

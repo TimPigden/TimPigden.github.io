@@ -212,11 +212,12 @@
     <option name="LAST_COMMIT_MESSAGE" value="fixing links" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572024872475">
-      <screen x="1920" y="50" width="2560" height="1440" />
+    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572100573296">
+      <screen x="70" y="27" width="1850" height="1173" />
     </state>
     <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004359604" />
     <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024872475" />
+    <state x="856" y="378" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572100573296" />
     <state x="2020" y="150" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1572024854325">
       <screen x="1920" y="50" width="2560" height="1440" />
     </state>
