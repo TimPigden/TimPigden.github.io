@@ -1,3 +1,9 @@
+---
+layout: default
+title: ZIO, Http4s, Auth, Codecs and zio-test
+description: Examples of use of ZIO with the http4s library, illustrating http4s authentication, custom codes and testing with zio-test
+---
+
 ## Testing with Http4s Client and ZIO
 
 In the last post we created a simple ZIO/Http4s server. But in addition to server we are already using, Http4s provides a client.

@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="fixing links">
-      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/avro-reader.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/avro-writer.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/collections.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/datetime.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/intro.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/schema.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/magnolia-avro/serialization.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part2.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/zio-http4s/zio-http4s-part2.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +79,8 @@
       <workItem from="1569589879357" duration="792000" />
       <workItem from="1569832500251" duration="16000" />
       <workItem from="1572000972016" duration="7717000" />
+      <workItem from="1572081383119" duration="373000" />
+      <workItem from="1572081807269" duration="16153000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml">
       <created>1569401099477</created>
@@ -163,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572024624108</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fixing links">
+      <created>1572024869346</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1572024869346</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,14 +212,18 @@
     <option name="LAST_COMMIT_MESSAGE" value="fixing links" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572024626593">
+    <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572024872475">
       <screen x="1920" y="50" width="2560" height="1440" />
     </state>
     <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004359604" />
-    <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024626593" />
+    <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024872475" />
     <state x="2020" y="150" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1572024854325">
       <screen x="1920" y="50" width="2560" height="1440" />
     </state>
     <state x="2020" y="150" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024854325" />
+    <state x="674" y="282" width="672" height="677" key="run.anything.popup" timestamp="1572083539729">
+      <screen x="70" y="27" width="1850" height="1173" />
+    </state>
+    <state x="674" y="282" width="672" height="677" key="run.anything.popup/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572083539729" />
   </component>
 </project>
