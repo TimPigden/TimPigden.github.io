@@ -31,7 +31,7 @@ The [github project](https://github.com/TimPigden/zio-http4s-examples) contains 
 * Hello3 is expands 1 with a custom encoding and decoding of an xml object, using scala xml
 * Hello4 combines 2 & 3
 
-The blob is broken into
+The blog is broken into
 * [ZIO, http4s Part 1 - basic Http4s Server and Service testing](zio-http4s-part1.md).
 * [ZIO, http4s Part 2 - Testing with http4s Client](zio-http4s-part2.md).
 * [ZIO, http4s Part 3 - Adding Authentication](zio-http4s-part3.md).
