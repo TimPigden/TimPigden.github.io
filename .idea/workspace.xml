@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="updated index.md">
+      <change afterPath="$PROJECT_DIR$/_pages/zio-streams/SpeedingUpTime.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_pages/zio-streams/intro.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_pages/magnolia-avro/intro.md" beforeDir="false" afterPath="$PROJECT_DIR$/_pages/magnolia-avro/intro.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/index.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +57,13 @@
       </map>
     </option>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView />
+      </list>
+    </option>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="bda31c4d-a7b4-4780-a720-757751ee3cb2" name="Default Changelist" comment="" />
@@ -74,6 +83,10 @@
       <workItem from="1572000972016" duration="7717000" />
       <workItem from="1572081383119" duration="373000" />
       <workItem from="1572081807269" duration="16919000" />
+      <workItem from="1572165730297" duration="58000" />
+      <workItem from="1572631545774" duration="3681000" />
+      <workItem from="1572684843733" duration="2825000" />
+      <workItem from="1572688064578" duration="2684000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/TimPigden/TimPigden.github.io&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;.idea/workspace.xml">
       <created>1569401099477</created>
@@ -236,12 +249,12 @@
     <option name="LAST_COMMIT_MESSAGE" value="updated index.md" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572101068944">
+    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1572101329534">
       <screen x="70" y="27" width="1850" height="1173" />
     </state>
     <state x="2736" y="323" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1053/823.1080.1920.1080/1920.0.1920.1080@1920.0.1920.1080" timestamp="1572004359604" />
     <state x="3008" y="481" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@1920.50.2560.1440" timestamp="1572024872475" />
-    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572101068944" />
+    <state x="856" y="378" width="800" height="535" key="Vcs.Push.Dialog.v2/70.27.1850.1173/1920.50.2560.1440@70.27.1850.1173" timestamp="1572101329534" />
     <state x="2020" y="150" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1572024854325">
       <screen x="1920" y="50" width="2560" height="1440" />
     </state>
