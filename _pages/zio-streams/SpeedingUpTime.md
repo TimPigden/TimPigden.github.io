@@ -206,7 +206,8 @@ a new fiber to give us the fast-forward:
       val stream = myStream.take(30)
       val sink = Sink.collectAll[SimpleEvent]
       for {
-        _ <- TestClock.adjust(Duration.fromScala(1.seconds)).repeat(Schedule.recurs(300)).fork
+        _ <- TestClock.adjust(Duration.fromScala(1.seconds))
+        .repeat(Schedule.recurs(300)).fork
         runner <- stream.run(sink)
       } yield assert(runner.size, equalTo(30))
     }
@@ -226,7 +227,8 @@ So we need to slow down the rate at which our test clock moves forward. Instead 
 But there's a problem here, Schedule.spaced needs a clock to do the spacing. But it can't use the test clock, since that's the thing we're
 trying to change. Instead we want to use the Live clock. To do this we use the withLive function
 ```scala
-        _ <- Live.withLive(TestClock.adjust(Duration.fromScala(1.seconds)))(_.repeat(Schedule.spaced(Duration.fromScala(10.millis)))).fork
+        _ <- Live.withLive(TestClock.adjust(Duration.fromScala(1.seconds)))(
+          _.repeat(Schedule.spaced(Duration.fromScala(10.millis)))).fork
 ```
 
 In the Live source this is defined as
