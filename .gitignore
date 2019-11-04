@@ -6,4 +6,6 @@ _site/
 vendor/
 Gemfile.lock
 /.idea/
-/.idea//.jekyll-cache/
+/.jekyll-cache/
+.idea/workspace.xml
+
