@@ -6,5 +6,4 @@ _site/
 vendor/
 Gemfile.lock
 /.idea/
-/.idea/
-/.jekyll-cache/
+/.idea//.jekyll-cache/
