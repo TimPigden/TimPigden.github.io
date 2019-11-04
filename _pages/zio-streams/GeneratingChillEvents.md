@@ -364,6 +364,11 @@ ReceivedEvent(ChillEvent(v-8,-9.59459141052508,1970-01-01T00:33:00Z),1970-01-01T
 ReceivedEvent(ChillEvent(v-13,-17.175593237140184,1970-01-01T00:33:00Z),1970-01-01T00:33:00.010Z)
 ```
 
+# Source code
+Source code can be found on [github](https://github.com/TimPigden/zio-http4s-examples) in the
+streams subproject
+
+
 
 
 
