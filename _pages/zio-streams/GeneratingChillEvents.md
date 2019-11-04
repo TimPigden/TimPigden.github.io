@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Generating Chill Events - with State and unfoldM
+title: Generating Chill Events - with Zio Streams
 description: Illustrates use of unfoldM to generate related events
 ---
 
