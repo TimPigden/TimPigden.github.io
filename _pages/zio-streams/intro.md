@@ -20,3 +20,7 @@ The [first article](./SpeedingUpTime.md) will look at generating the IoT event t
 want to generate them over a day and don't want to wait all day to run the simulation
 we must find a way to run in an "alternate reality" where time passes faster.
 
+The [second article](./GeneratingChillEvents.md) uses Zio Streams to generate simulated
+sensor output data.
+
+
