@@ -1,10 +1,14 @@
 ---
 layout: default
-title: Generating Chill Events - with Zio Streams
-description: Illustrates use of unfoldM to generate related events
+title: Simulating IoT Events - with Zio Streams
+description: Illustrates use of zio streams to generate simulated events
 ---
 
-# Generating Chill Events
+# Simulating IoT Events - with Zio Streams
+
+This is the second part of a [series](intro.md) about simulating and analysing IoT events
+using Zio Streams.
+
 In the previous blog [Speeding up Time with Zio Test](./SpeedingUpTime.md)
 I looked at generating timed events using the Zio Test Clock.
 

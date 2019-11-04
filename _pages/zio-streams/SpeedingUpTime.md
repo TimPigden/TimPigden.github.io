@@ -6,6 +6,9 @@ description: Illustrates use of TestClock and a bit of streaming
 
 # Speeding up Time
 
+This is the first part of a [series](./intro.md) about simulating and analysing IoT events
+using Zio Streams.
+
 For my IoT sensor emulator, one of the most crucial elements is the timestamp.
 
 A syntheised stream of events needs the events to have a timestamp and we can
