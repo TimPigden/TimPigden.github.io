@@ -60,7 +60,7 @@ My events are going to be evenly spaced, so I created the convenience method:
 ```scala
   def generatedStream[Evt, S](initialState: S, generator: EventGenerator[Evt, S], timing: JDuration) =
     ZStream.unfoldM(initialState)(generator.generate)
-    .schedule(Schedule.spaced(Duration.fromJava(timing)))
+    .schedule(ZSchedule.spaced(Duration.fromJava(timing)))
 ```
 Note that throughout I'm using java.time with
 ```scala
@@ -135,7 +135,7 @@ The fastTime method is a convenience method derived from the work in the
 ```scala
   def fastTime(testIntervals: JDuration, liveIntervals: JDuration) =
     Live.withLive(TestClock.adjust(Duration.fromJava(testIntervals)))(
-    _.repeat(Schedule.spaced(Duration.fromJava(liveIntervals)))).fork
+    _.repeat(ZSchedule.spaced(Duration.fromJava(liveIntervals)))).fork
 ```
 
 # Emulating Transmission Delays

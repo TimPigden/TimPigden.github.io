@@ -54,7 +54,7 @@ This is our generator:
       ZIO.accessM[Clock](_.clock.currentDateTime)
       .map(at => SimpleEvent(at.toInstant))
     )
-    .schedule(Schedule.spaced(Duration.fromScala(10.seconds)))
+    .schedule(ZSchedule.spaced(Duration.fromScala(10.seconds)))
 ```
 So this illustrates a few things:
 
@@ -71,7 +71,7 @@ Now ZStream.repeatEffect takes an effect and runs it forever - as fast as the
 system will let it.
 We don't need that so we can use
 ```scala
-    .schedule(Schedule.spaced(Duration.fromScala(10.seconds)))
+    .schedule(ZSchedule.spaced(Duration.fromScala(10.seconds)))
 ```
 to ensure we only get one every 10 seconds.
 
@@ -191,7 +191,7 @@ live console:
       _ <- Live.live(console.putStrLn(s"at $evt"))
     } yield evt
   )
-//    .schedule(Schedule.spaced(Duration.fromScala(10.seconds)))
+//    .schedule(ZSchedule.spaced(Duration.fromScala(10.seconds)))
 ```
 The program now runs with output of (30 lines):
 ```
@@ -225,13 +225,13 @@ at SimpleEvent(1970-01-01T00:05:01Z)
 Not quite what we wanted - our fast forward is too fast and by the time the stream generator grabs the test clock current
 time, it's moved all the way to the "end" of our 300 seconds.
 
-So we need to slow down the rate at which our test clock moves forward. Instead of using Schedule.recurs we can use Schedule.spaced
+So we need to slow down the rate at which our test clock moves forward. Instead of using Schedule.recurs we can use ZSchedule.spaced
 
-But there's a problem here, Schedule.spaced needs a clock to do the spacing. But it can't use the test clock, since that's the thing we're
+But there's a problem here, ZSchedule.spaced needs a clock to do the spacing. But it can't use the test clock, since that's the thing we're
 trying to change. Instead we want to use the Live clock. To do this we use the withLive function
 ```scala
         _ <- Live.withLive(TestClock.adjust(Duration.fromScala(1.seconds)))(
-          _.repeat(Schedule.spaced(Duration.fromScala(10.millis)))).fork
+          _.repeat(ZSchedule.spaced(Duration.fromScala(10.millis)))).fork
 ```
 
 In the Live source this is defined as
