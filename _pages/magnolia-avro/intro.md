@@ -35,17 +35,8 @@ This latter project provides far more capabilities than the example here, especi
 if you need to process data from external sources where non-scala field name conventions
 are used.
 
-### So why write another tool?
-In short, the path of least resistance.
-In our company, Optrak, we already have familiarity with Magnolia having written several generators already,
-(xml writing and parsing, jdbc record processing, csvs, xlsx, typesafe config etc) and
-it looked quicker to do another than to get to grips with a totally new tool.
-We are going to be writing and consuming data that is entirely under our control and thus can
-managed and we wish to support extended types ([squants units](https://github.com/typelevel/squants)
-for example) that would probably require extensions to any external library.
-
-The source code associated with this blog is a subset of the internal library that we have created. This
-is to keep down the number of external dependencies.
+#UPDATE
+For production purposes I am switching to [avro4s](https://github.com/sksamuel/avro4s)
 
 ### The rest of this article
 The remainder of this article is split into the following sections:
