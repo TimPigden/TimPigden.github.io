@@ -11,6 +11,11 @@ Essentially I'm writing up my own exploratory tests. I hope it's of use to you!
 I will attempt to keep the source code (though not necessarily the blogs) up-to-date. Please let me know with an issue on my github if it gets too far
 out of step.
 
+# ZIO Layers (RC18+)
+
+An example of using various combinations ZIO layers illustrating combining with ++ and >>>
+
+
 # ZIO with http4s
 
 This is a set of 4 blog articles exploring the use of the ZIO functional effects library
