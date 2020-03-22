@@ -15,7 +15,7 @@ out of step.
 
 An example of using various combinations ZIO layers illustrating combining with ++ and >>>
 
-[Article][_pages/zlayer/Examples.md]
+[Article](_pages/zlayer/Examples.md)
 
 
 # ZIO with http4s
