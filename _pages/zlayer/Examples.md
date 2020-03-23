@@ -52,6 +52,10 @@ So now we get to our first Service - Names
     val live: ZLayer[Random, Nothing, Names] =
       ZLayer.fromService(NamesImpl)
   }
+
+  package object names {
+    def randomName = ZIO.accessM[Names](_.get.randomName)
+  }
 ```
 
 This follows the typical module pattern.
@@ -59,6 +63,7 @@ This follows the typical module pattern.
 * in the object define Service as a trait
 * create an implementation (of course you can have several)
 * create a ZLayer within the object for the given implementation. ZIO convention tends to call these live
+* Adds a package object which provides a useful shortening for the access
 
 The **live** uses ZLayer.fromService - which is defined as:
 ```scala
@@ -72,7 +77,7 @@ Here's a test:
 ```scala
 def namesTest = testM("names test") {
     for {
-      name <- ZIO.accessM[Names](_.get.randomName)
+      name <- names.randomName
     }  yield {
       assert(firstNames.contains(name))(equalTo(true))
     }
@@ -115,7 +120,7 @@ Our first test is straight-forward
 ```scala
   def justTeamsTest = testM("small team test") {
     for {
-      team <- ZIO.accessM[Teams](_.get.pickTeam(1))
+      team <- teams.pickTeam(1)
     }  yield {
       assert(team.size)(equalTo(1))
     }
@@ -128,7 +133,7 @@ To run this we need to give it a Teams layer:
       justTeamsTest
     ).provideCustomLayer(Names.live >>> Teams.live),
 ```
-So what's the **>>>**?
+So what's the ">>>"?
 
 This is the vertical composition. It show that we need a Names layer which needs a Teams layer.
 
@@ -151,7 +156,7 @@ Looking back to the definition of NamesImpl
 ```
 So our NamesImpl is being created twice. What does that mean if our service is holding some application-unique system resource? Well actually, it turns out that the problem isn't with the Layers mechanism at all - the layers are memoized and not created multiple times in the dependency graph. It's actually an artifact of the test environment.
 
-Schanging our test suite to:
+Changing our test suite to:
 ```scala
     suite("needs just Team")(
       justTeamsTest
@@ -163,8 +168,8 @@ The **justTeamsTest** requires just teams. But what if I wanted access to Teams 
 ```scala
   def inMyTeam = testM("combines names and teams") {
     for {
-      name <- ZIO.accessM[Names](_.get.randomName)
-      team <- ZIO.accessM[Teams](_.get.pickTeam(5))
+      name <- names.randomName
+      team <- teams.pickTeam(5)
       _ = if (team.contains(name)) println("one of mine")
         else println("not mine")
     } yield assertCompletes
@@ -207,8 +212,8 @@ The test follows the same pattern as before:
 ```scala
   def wonLastYear = testM("won last year") {
     for {
-      team <- ZIO.accessM[Teams](_.get.pickTeam(5))
-      ly <- ZIO.access[History](_.get.wonLastYear(team))
+      team <- teams.pickTeams(5)
+      ly <- history.wonLastYear(team)
     } yield assertCompletes
   }
 
@@ -248,7 +253,7 @@ object LayerTests extends DefaultRunnableSpec {
     val live: ZLayer[Random, Nothing, Names] =
       ZLayer.fromService(NamesImpl)
   }
-
+  
   object Teams {
     trait Service {
       def pickTeam(size: Int): UIO[Set[String]]
@@ -264,7 +269,7 @@ object LayerTests extends DefaultRunnableSpec {
 
   }
   
-    object History {
+  object History {
     
     trait Service {
       def wonLastYear(team: Set[String]): Boolean
@@ -279,10 +284,11 @@ object LayerTests extends DefaultRunnableSpec {
     }
     
   }
+  
 
   def namesTest = testM("names test") {
     for {
-      name <- ZIO.accessM[Names](_.get.randomName)
+      name <- names.randomName
     }  yield {
       assert(firstNames.contains(name))(equalTo(true))
     }
@@ -290,7 +296,7 @@ object LayerTests extends DefaultRunnableSpec {
 
   def justTeamsTest = testM("small team test") {
     for {
-      team <- ZIO.accessM[Teams](_.get.pickTeam(1))
+      team <- teams.pickTeam(1)
     }  yield {
       assert(team.size)(equalTo(1))
     }
@@ -298,8 +304,8 @@ object LayerTests extends DefaultRunnableSpec {
   
   def inMyTeam = testM("combines names and teams") {
     for {
-      name <- ZIO.accessM[Names](_.get.randomName)
-      team <- ZIO.accessM[Teams](_.get.pickTeam(5))
+      name <- names.randomName
+      team <- teams.pickTeam(5)
       _ = if (team.contains(name)) println("one of mine")
         else println("not mine")
     } yield assertCompletes
@@ -308,15 +314,15 @@ object LayerTests extends DefaultRunnableSpec {
   
   def wonLastYear = testM("won last year") {
     for {
-      team <- ZIO.accessM[Teams](_.get.pickTeam(5))
-      ly <- ZIO.access[History](_.get.wonLastYear(team))
+      team <- teams.pickTeam(5)
+      _ <- history.wonLastYear(team)
     } yield assertCompletes
   }
 
   val individually = suite("individually")(
-    // suite("needs Names")(
-    //    namesTest
-    // ).provideCustomLayer(Names.live),
+    suite("needs Names")(
+       namesTest
+    ).provideCustomLayer(Names.live),
     suite("needs just Team")(
       justTeamsTest
     ).provideCustomLayer(Names.live >>> Teams.live),
@@ -347,6 +353,21 @@ object LayerTests extends DefaultRunnableSpec {
     individually
   )
 }
+
+import LayerTests._
+
+package object names {
+  def randomName = ZIO.accessM[Names](_.get.randomName)
+}
+
+package object teams {
+  def pickTeam(nPicks: Int) = ZIO.accessM[Teams](_.get.pickTeam(nPicks))
+}
+  
+package object history {
+  def wonLastYear(team: Set[String]) = ZIO.access[History](_.get.wonLastYear(team))
+}
+
 ```
 If you have any more complex requirements, ask on Discord in #zio-users or check out the main zio web page and [docs](https://zio.dev)
 
