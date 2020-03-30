@@ -236,7 +236,7 @@ then at the end of the test
 ```
 .provideCustomLayer(Names.live).mapError(TestFailure.test)
 ```
-The mapError returns the throwable into a test failure - which is what you want - it might tell you that the test file didn't exist or something like.
+The mapError turns the throwable into a test failure - which is what you want - it might tell you that the test file didn't exist or something like.
 
 ## Source
 Full source code (excluding the throwable stuff) below:
