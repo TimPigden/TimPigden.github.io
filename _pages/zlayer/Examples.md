@@ -224,7 +224,22 @@ The test follows the same pattern as before:
 
 And that's it.
 
-Full source code below:
+## Addendum - Throwable Errors
+
+This was not part of the orignal blog, but I've been asked about it by a couple of people.
+
+The above code all assumes you're returning ZLayer[R, Nothing, T] - in other words the construction of the environment service has Nothing type. But if it's doing something like reading from a file or a database, then very likely it will be ZLayer[R, Throwable, T] - because that sort of thing often involves precisely the sort of external effect that will throw an exception. So imagine Names construction had a throwable error. For your tests, the way to get round it is like this:
+```scala
+  val live: ZLayer[Random, Throwable, Names] = ???
+```
+then at the end of the test
+```
+.provideCustomLayer(Names.live).mapError(TestFailure.test)
+```
+The mapError returns the throwable into a test failure - which is what you want - it might tell you that the test file didn't exist or something like.
+
+## Source
+Full source code (excluding the throwable stuff) below:
 ```scala
 import zio._
 import zio.test._
