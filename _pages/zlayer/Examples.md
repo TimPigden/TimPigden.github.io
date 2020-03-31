@@ -224,9 +224,7 @@ The test follows the same pattern as before:
 
 And that's it.
 
-## Addendum - Throwable Errors
-
-This was not part of the orignal blog, but I've been asked about it by a couple of people.
+## Throwable Errors
 
 The above code all assumes you're returning ZLayer[R, Nothing, T] - in other words the construction of the environment service has Nothing type. But if it's doing something like reading from a file or a database, then very likely it will be ZLayer[R, Throwable, T] - because that sort of thing often involves precisely the sort of external effect that will throw an exception. So imagine Names construction had a throwable error. For your tests, the way to get round it is like this:
 ```scala
@@ -238,6 +236,60 @@ then at the end of the test
 ```
 The mapError turns the throwable into a test failure - which is what you want - it might tell you that the test file didn't exist or something like.
 
+## More ZEnv Cases
+
+The "standard" environment items include clock and random. In out Names, we used Random. But what if we also want one of these items further "down" our dependencies. For this purpose I've created a second version of History - History2 - and this needs Clock to create an instance.
+```
+  object History2 {
+    
+    trait Service {
+      def wonLastYear(team: Set[String]): Boolean
+    }
+
+    case class History2Impl(lastYearsWinners: Set[String], lastYear: Long) extends Service {
+      def wonLastYear(team: Set[String]) = lastYearsWinners == team
+    }
+    
+    val live: ZLayer[Clock with Teams, Nothing, History2] = ZLayer.fromEffect { 
+      for {
+        someTime <- ZIO.accessM[Clock](_.get.nanoTime)        
+        team <- teams.pickTeam(5)
+      } yield History2Impl(team, someTime)
+    }
+    
+  }
+```
+It's not a very useful example - but the important part is that the line
+```
+        someTime <- ZIO.accessM[Clock](_.get.nanoTime)        
+```
+forces us to provide a clock in the right place.
+
+Now the .provideCustomLayer can add our layer to layer stack and it magically pushes the Random into Names. But it will not do that for the clock, which is required further down, in History2. So the following code does NOT compile:
+```
+  def wonLastYear2 = testM("won last year") {
+    for {
+      team <- teams.pickTeam(5)
+      _ <- history2.wonLastYear(team)
+    } yield assertCompletes
+  }
+
+// ...
+    suite("needs History2 and Teams")(
+      wonLastYear2
+    ).provideCustomLayerShared((Names.live >>> Teams.live) ++ (Names.live >>> Teams.live >>> History2.live)),
+
+```
+Instead, you need to provide the History2.live with a clock explicitly, which is done as follows:
+```
+    suite("needs History2 and Teams")(
+      wonLastYear2
+    ).provideCustomLayerShared((Names.live >>> Teams.live) ++ (((Names.live >>> Teams.live) ++ Clock.any) >>> History2.live))
+```
+
+The Clock.any is a function that gets whatever clock is available from further up. In this case it will be the Test clock, because we have not tried to use Clock.live.
+
+
 ## Source
 Full source code (excluding the throwable stuff) below:
 ```scala
@@ -246,11 +298,18 @@ import zio.test._
 import zio.random.Random
 import Assertion._
 
+import zio._
+import zio.test._
+import zio.random.Random
+import zio.clock.Clock
+import Assertion._
+
 object LayerTests extends DefaultRunnableSpec {
 
   type Names = Has[Names.Service]
   type Teams = Has[Teams.Service]
   type History = Has[History.Service]
+  type History2 = Has[History2.Service]
 
   val firstNames = Vector( "Ed", "Jane", "Joe", "Linda", "Sue", "Tim", "Tom")
 
@@ -284,7 +343,7 @@ object LayerTests extends DefaultRunnableSpec {
 
   }
   
-  object History {
+ object History {
     
     trait Service {
       def wonLastYear(team: Set[String]): Boolean
@@ -296,6 +355,25 @@ object LayerTests extends DefaultRunnableSpec {
     
     val live: ZLayer[Teams, Nothing, History] = ZLayer.fromServiceM { teams => 
       teams.pickTeam(5).map(nt => HistoryImpl(nt))
+    }
+    
+  }
+  
+  object History2 {
+    
+    trait Service {
+      def wonLastYear(team: Set[String]): Boolean
+    }
+
+    case class History2Impl(lastYearsWinners: Set[String], lastYear: Long) extends Service {
+      def wonLastYear(team: Set[String]) = lastYearsWinners == team
+    }
+    
+    val live: ZLayer[Clock with Teams, Nothing, History2] = ZLayer.fromEffect { 
+      for {
+        someTime <- ZIO.accessM[Clock](_.get.nanoTime)        
+        team <- teams.pickTeam(5)
+      } yield History2Impl(team, someTime)
     }
     
   }
@@ -333,6 +411,14 @@ object LayerTests extends DefaultRunnableSpec {
       _ <- history.wonLastYear(team)
     } yield assertCompletes
   }
+  
+  def wonLastYear2 = testM("won last year") {
+    for {
+      team <- teams.pickTeam(5)
+      _ <- history2.wonLastYear(team)
+    } yield assertCompletes
+  }
+
 
   val individually = suite("individually")(
     suite("needs Names")(
@@ -346,7 +432,10 @@ object LayerTests extends DefaultRunnableSpec {
     ).provideCustomLayer(Names.live ++ (Names.live >>> Teams.live)),
     suite("needs History and Teams")(
       wonLastYear
-    ).provideCustomLayerShared((Names.live >>> Teams.live) ++ (Names.live >>> Teams.live >>> History.live))
+    ).provideCustomLayerShared((Names.live >>> Teams.live) ++ (Names.live >>> Teams.live >>> History.live)),
+    suite("needs History2 and Teams")(
+      wonLastYear2
+    ).provideCustomLayerShared((Names.live >>> Teams.live) ++ (((Names.live >>> Teams.live) ++ Clock.any) >>> History2.live))
   )
   
   val altogether = suite("all together")(
@@ -383,6 +472,9 @@ package object history {
   def wonLastYear(team: Set[String]) = ZIO.access[History](_.get.wonLastYear(team))
 }
 
+package object history2 {
+  def wonLastYear(team: Set[String]) = ZIO.access[History2](_.get.wonLastYear(team))
+}
 ```
 If you have any more complex requirements, ask on Discord in #zio-users or check out the main zio web page and [docs](https://zio.dev)
 
