@@ -28,7 +28,7 @@ in the following, it may be of interest to you:
 * And http4s custom codecs
 * And zio-test, including the new provideManagedShared
 
-Versions used are ZIO 1.0-RC15 with Zio-interop 2.0.0.0-RC6 and http4s 0.20.10
+Versions used are ZIO 1.0-RC18-2 with Zio-interop 2.0.0.0-RC8 and http4s 0.21.3
 
 [Article](_pages/zio-http4s/intro.md)
 

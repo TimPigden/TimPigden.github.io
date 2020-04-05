@@ -69,35 +69,40 @@ The following code illustrates this
 package zhx.servers
 
 import org.http4s._
+import org.http4s.implicits._
 import zio._
 import zio.interop.catz._
 import zio.test._
 import zio.test.Assertion._
+import TestAspect._
+import Uri._
 
-object TestHello1Service extends DefaultRunnableSpec (
-  suite("routes suite")(
+object TestHello1Service extends DefaultRunnableSpec {
+  override def spec = suite("routes suite")(
     testM("root request returns Ok") {
       for {
         response <- Hello1Service.service.run(Request[Task](Method.GET, uri"/"))
-      } yield assert(response.status, equalTo(Status.Ok))
+      } yield assert(response.status)(equalTo(Status.Ok))
     },
     testM("root request returns Ok, using assertM insteat") {
-      assertM(Hello1Service.service.run(Request[Task](Method.GET, uri"/")).map(_.status),
-      equalTo(Status.Ok))
+      assertM(Hello1Service.service.run(Request[Task](Method.GET, uri"/")).map(_.status))(
+        equalTo(Status.Ok))
     },
-    testM("root request returns NotFound") {
-      assertM(Hello1Service.service.run(Request[Task](Method.GET, uri"/a")).map(_.status),
+    testM("root request returns Ok, using assertM insteat") {
+      assertM(Hello1Service.service.run(Request[Task](Method.GET, uri"/a")).map(_.status))(
         equalTo(Status.NotFound))
     },
     testM("root request body returns hello!") {
-      val io = for{
+      val io = for {
         response <- Hello1Service.service.run(Request[Task](Method.GET, uri"/"))
         body <- response.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
-      }yield body
-      assertM(io, equalTo("hello!"))
+      } yield body
+      assertM(io)(equalTo("hello1!"))
     }
 
-  ))
+  ) @@ sequential
+}
+
 ```
 
 For those of you familiar with Specs2 or ScalaTest, this will look broadly familiar in shape. However, it uses neither of these libraries, instead using

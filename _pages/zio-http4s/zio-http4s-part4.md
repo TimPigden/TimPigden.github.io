@@ -129,14 +129,14 @@ will expect to decode an xml body of type person.
 ## Testing
 The service can be tested directly.
 ```scala
-object TestHello3Service extends DefaultRunnableSpec(
-  suite("routes suite")(
+object TestHello3Service extends DefaultRunnableSpec {
+  override def spec = suite("routes suite")(
     testM("president returns donald") {
-      for{
+      for {
         response <- Hello3Service.service.run(Request[Task](Method.GET, uri"/president"))
         body <- response.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
         parsed <- parseIO(body)
-      }yield assert(parsed, equalTo(Person.donald))
+      } yield assert(parsed)(equalTo(Person.donald))
     },
     testM("joe is 76") {
       val rq = Request[Task](Method.POST, uri"/ageOf")
@@ -144,10 +144,11 @@ object TestHello3Service extends DefaultRunnableSpec(
       for {
         response <- Hello3Service.service.run(rq)
         body <- response.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
-      } yield assert(body, equalTo("76"))
+      } yield assert(body)(equalTo("76"))
     }
 
-  ))
+  )
+}
 ```
 
 ## Putting it all together - Authentication plus Codecs
@@ -164,41 +165,41 @@ class Hello4Service[R <: Authenticator] {
   val service = AuthedRoutes.of[AuthToken, AuthenticatorTask] {
     case GET -> Root as authToken => Ok("hello4!")
     case GET -> Root / "president" as authToken => Ok(Person.donald) // uses implicit encoder
-    case AuthedRequest(authToken, req @ POST -> Root / "ageOf") =>
+    case ContextRequest(authToken, req @ POST -> Root / "ageOf") =>
       req.decode[Person] { m => Ok(m.age.toString)}
   }
 
 }
+
 ```
 
 Tested with:
 ```scala
-object TestHello4Service extends DefaultRunnableSpec(
-  suite("routes suite")(
+object TestHello4Service extends DefaultRunnableSpec {
+  override def spec = suite("routes suite") (
     testM("president returns donald") {
       val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/president")
       val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
-      val io = (for{
+      val io = for {
         response <- hello4Service.run(req)
         body <- response.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
         parsed <- parseIO(body)
-      }yield parsed)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io, equalTo(Person.donald))
+      } yield parsed
+      assertM(io)(equalTo(Person.donald))
     },
     testM("joe is 76") {
       val req1 = Request[withMiddleware.AppTask](Method.POST, uri"/ageOf")
       val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
         .withEntity(Person.joe)
-      val io = (for{
+      val io = for {
         response <- hello4Service.run(req)
         body <- response.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
-      }yield body)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io, equalTo("76"))
+      } yield body
+      assertM(io)(equalTo("76"))
     }
 
-  ))
+  ).provideCustomLayer(Authenticator.friendly)
+}
 
 
 object MoreMiddlewares {

@@ -6,8 +6,6 @@ description: second part of zio http4s blog
 
 # Hello2
 
-Note this is WORK-IN-PROGRESS! Expect an update shortly
-
 Obviously "hello1" is not particularly interesting by iteself. In our second example we will show how to authenticate our request and pass an authentication object to the service.
 
 ## The Service
@@ -26,13 +24,14 @@ class Hello2Service[R <: Authenticator] {
 }
 ```
 
-The first thing is that we have a class that takes a type parameter. In this case R is a ZIO Environment. Please see the ZIO documentation and blogs for an explanation of environment. In this case
-our environment needs to contain a single thing - an Authenticator
-
 ## Authenticator
+
+An Authenticator is Module pattern to provide an Authenticator.Service. The service takes a userName and password and returns Task[AuthToken]
 
 ```scala
 object Authenticator {
+
+  type Authenticator = Has[Service]
 
   case class AuthToken(tok: String)
 
@@ -52,12 +51,15 @@ object Authenticator {
       case _ => IO.fail(authenticationError)
     }
   }
+
+  val friendly = ZLayer.succeed(friendlyAuthenticator)
 }
 
-trait Authenticator { def authenticatorService: Authenticator.Service }
+package object authenticator {
+  def authenticate(userName: String, password: String): RIO[Authenticator, AuthToken]
+  = ZIO.accessM[Authenticator](_.get.authenticate(userName, password))
+}
 ```
-
-Essentially, an Authenticator is something that can provide an Authenticator.Service. The service takes a userName and password and returns Task[AuthToken]
 
 So in our authentication process, we are going to extract username and password from the request (in this case from the request header) and check them. If they are ok, we get an AuthToken. If not, we will
 expect a Task failure. In this case it will be of type AuthenticationError, our custom return type, which needs to extend Throwable to conform to the definition of Task.
@@ -81,14 +83,10 @@ trait AuthenticationHeaders[R <: Authenticator] {
         asSplit = auth.split(" ")
         if asSplit.size == 2
       } yield asSplit
-    val tok = userNamePasswordOpt.map { asSplit =>
-      val res1 = for {
-        authentic <- authenticator.authenticatorService
-        tok  <- authentic.authenticate(asSplit(0), asSplit(1))
-      } yield tok
-      res1.either
-    }
-    tok.getOrElse(unauthenticated)
+    userNamePasswordOpt.map { asSplit =>
+      val tok = authenticator.authenticate(asSplit(0), asSplit(1))
+      tok.either
+    }.getOrElse(unauthenticated)
   }
 }
 ```
@@ -215,14 +213,7 @@ object Hello2 extends App with AuthenticationMiddleware {
           .drain
     }
 
-  val server = server1
-    .provideSome[ZEnv] { base =>
-      new  Authenticator with Clock {
-        override val clock: Clock.Service[Any] = base.clock
-
-        override def authenticatorService: Authenticator.Service = Authenticator.friendlyAuthenticator
-      }
-    }
+  val server = server1.provideCustomLayer(friendly)
 
   def run(args: List[String]): ZIO[ZEnv, Nothing, Int] =
     server.foldM(err => putStrLn(s"execution failed with $err") *> ZIO.succeed(1), _ => ZIO.succeed(0))
@@ -232,9 +223,6 @@ object Hello2 extends App with AuthenticationMiddleware {
 This has suddenly got rather more complicated.
 
 Our App is extended with AuthenticationMiddleware, which means our types line up.
-
-Next we need to define an Environment that includes Authenticator. In addition it needs Clock
-because this supplies Timer which is needed by the http4s server (implicitly provided via *import zio.interop.catz._*).
 
 We create the new hello2Service instance of the right type parameterisation.
 
@@ -248,10 +236,7 @@ val authenticatedService: Kleisli[({
 Moving on, we need to fix that, so we use Router to map the empty path element "" to this service, and
 add the .orNotFound to give us 404 for an unmatched string.
 
-The final section creates the BlazeServer. The difference is that it needs an
-AppEnivornment (i.e. with Authenticator) instead of the default ZIO environment. I've split this
-part into 2 for clarity - first creating server1 which requires AppEnvironment, then using the
-ZIO .provideSome to give it the Authenticator service
+The final section creates the BlazeServer. And it needs our authentication environment - so we provide the custom layer **friendly** from our Authenticator
 
 ## Testing
 
@@ -283,29 +268,26 @@ Essentially this mirrors the code in our Hello2 server.
 
 This is then called directly from our individual tests:
 ```scala
-suite("routes suite") (
+ suite("routes suite")(
 
     testM("root request returns forbidden") {
       val io = hello2Service.run(Request[withMiddleware.AppTask](Method.GET, uri"/"))
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io.map(_.status),
+      assertM(io.map(_.status))(
         equalTo(Status.Forbidden)) // will fail if nothing there
     },
 
     testM("root request with authentication returns ok") {
       val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/")
       val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
-      val io = hello2Service.run(req)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io.map(_.status), equalTo(Status.Ok)) // will fail if nothing there
+      val io = hello2Service.run(req).provideCustomLayer(Authenticator.friendly)
+      assertM(io.map(_.status))(equalTo(Status.Ok)) // will fail if nothing there
     }
     ,
     testM("unmapped request returns not found") {
       val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/a")
       val req = AuthenticationHeaders.addAuthentication(req1, "tim", "friend")
       val io = hello2Service.run(req)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io.map(_.status), equalTo(Status.NotFound))
+      assertM(io.map(_.status))(equalTo(Status.NotFound))
     }
     ,
     testM("root request body returns hello!") {
@@ -316,18 +298,16 @@ suite("routes suite") (
         request <- io
         body <- request.body.compile.toVector.map(x => x.map(_.toChar).mkString(""))
       } yield body)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(iop, equalTo("hello! tim"))
+      assertM(iop)(equalTo("hello! tim"))
     }
     ,
     testM("bad password gives forbidden") {
       val req1 = Request[withMiddleware.AppTask](Method.GET, uri"/")
       val req = AuthenticationHeaders.addAuthentication(req1, "tim", "frond")
-      val io = hello2Service.run(req)
-        .provide(new Authenticator{ override val authenticatorService = Authenticator.friendlyAuthenticator})
-      assertM(io.map(_.status), equalTo(Status.Forbidden))
+      val io = hello2Service.run(req).provideCustomLayer(Authenticator.friendly)
+      assertM(io.map(_.status))(equalTo(Status.Forbidden))
     }
 
-  )
+  ).provideCustomLayerShared(Authenticator.friendly)
 ```
-
+Note, all tests are collectively supplied with the same Authenticator layer.

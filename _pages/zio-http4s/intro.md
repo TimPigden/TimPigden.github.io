@@ -3,6 +3,12 @@ layout: default
 title: ZIO, Http4s, Auth, Codecs and zio-test
 description: Examples of use of ZIO with the http4s library, illustrating http4s authentication, custom codes and testing with zio-test
 ---
+# Updated for ZIO 1.0.0-RC18-2 and HTTP4s 0.21.3
+
+This has been updated for latest zio and http4s. There is also an intermediate zio rC18-2 + http4s 0.20.21 in the github on an obviously named branch.
+
+The document is an update which I've pushed out in a slightly hurried manner. If there are any errors relating to residual stuff from previous releases please drop me a line and I'll fix. The source code compiles and runs.
+
 ### Why Another ZIO/Http4s Client Example?
 
 There are a couple of sample projects already in existence showing you how to use zio with http4s as a server. So why another?
