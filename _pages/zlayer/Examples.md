@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Example of ZLayers being used in combination
-description: examp[le tests]
+description: 
 ---
 
 # ZIO ZLayers In Combination
