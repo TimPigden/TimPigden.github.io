@@ -1,7 +1,7 @@
 ---
 layout: default
 title: ZIO, Http4s, Auth, Codecs and zio-test
-description: Examples of use of ZIO with the http4s library, illustrating http4s authentication, custom codes and testing with zio-test
+description: Examples of use of ZIO with the http4s library, illustrating uzhttp, sttp authentication, custom codes and testing with zio-test
 ---
 # ZIO-based Http Server and Client using uzhttp and sttp
 
