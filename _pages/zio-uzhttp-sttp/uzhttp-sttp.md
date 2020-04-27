@@ -448,6 +448,177 @@ The sttp layer is the same, but the server layer is rather more complicated as w
 ```
 It's slightly more complicated due to the fact that we have a ZIO of a Managed to deal with. We unwrap that first with ZManaged.unwrap before applying ZLayer.fromManaged
 
+# Can we do better?
+
+Personally, I find having long lists of PartialFunction case matches not particularly satisfactory. uzhttp authors say they had no intention of making a DSL but can we make our code more fluent.
+
+One possibility was suggested to me on the zio-users discord channe. Instead of combining partial functions, we can make it more "zio-like" with the following:
+```
+  type HRequest = Has[Request]
+
+  type EndPoint[R <: HRequest] = ZIO[R, Option[HTTPError], Response]
+```
+
+Much like our partial function, it takes a request and returns a response. But what's the Option[HTTPError] about? Essentially, what it does is allows us to give us 3 return possibilities:
+- the Response, if our EndPoint matches the request
+- An error of Some(error) if there's something wrong with the Request
+- An "error" of None - if the EndPoint doesn't match the response
+
+Now we can write individual EndPoints like this:
+```scala
+  val president = uriMethod(startsWith("president"), Method.GET).as {
+    writeXmlBody(Person.donald)
+  }
+
+  val contender = uriMethod(endsWith("contender"), Method.GET).as {
+    writeXmlBody(Person.joe)
+  }
+
+  val whatIsMyName = for {
+    _ <- uriMethod(endsWith(NonEmptyList.of("whatIsMyName")), Method.POST)
+    person <- parsedXmlBody[Person]
+  } yield Response.plain(person.name)
+```
+where the helper methods are things like:
+```scala
+  def uriMethod(pMatch: Seq[String] => Boolean, expectedMethod: Method): ZIO[HRequest, Option[HTTPError], Unit] = {
+    for {
+      pth <- uri
+      mtd <- method
+      matched <- if (pMatch(pth) && (mtd === expectedMethod))
+        IO.unit else IO.fail(None)
+    } yield matched
+  }
+
+```
+
+So that's individual EndPoints. How do we chain them together - what is the equivalent to "orElse". So looking through the zio RC18-2 I couldn't see a really slick way of doing this. Asking on the Discord channel, essentially elicited the response, there's nothing there yet, ok, we've just done something. So in zio RC19 or 1.0.0 or a current (post about April 20th) SNAPSHOT you will be able to do this:
+```
+val routes = president orElseOptional  contender orElseOptional whatIsMyName
+```
+But for the impatient, I've got the following:
+```
+  def combineRoutes[R <: HRequest](h: EndPoint[R], t: EndPoint[R]*): EndPoint[R] =
+    t.foldLeft(h)((acc, it) =>
+      acc catchSome { case None => it }
+    )
+```
+giving:
+```scala
+  val routes = combineRoutes(president, contender, whatIsMyName)
+```
+To my mind this is nicer and tidier than the equivalent use of PartialFunction. Our auth endpoints become:
+```scala
+  val authorized: EndPoint[HRequest with Auth] =
+    for {
+      _ <- uriMethod(endsWith("authorized"), Method.GET)
+      _ <- authStatus("Vetted")
+    } yield Response.plain("OK")
+// where
+  def authStatus(s: String): ZIO[Auth, Option[HTTPError], Unit] =
+    for {
+      stat <- auth.status
+      res <- if (stat === s) IO.unit
+      else IO.fail(Some(Forbidden("go get permission")))
+    } yield res
+```
+
+Sorting out the layers to provide Auth is a bit more straight-forward than adding it into the PartialFunction. You still have to do a bit of work though:
+```scala
+  def authHandler(p: EndPoint[HRequest with Auth]): ZIO[Authorizer, HTTPError, Request => IO[HTTPError, Response]] =
+    ZIO.access[Authorizer](_.get).map { aut => { req: Request =>
+      (for {
+        authInfo <- getAuthorization(req).provideLayer(ZLayer.succeed(aut))
+        res <- orNotFound(p).provideLayer(ZLayer.succeed(req) ++ ZLayer.succeed(authInfo))
+      } yield res).mapError { th =>
+        th match {
+          case herr: HTTPError => herr
+          case th => Unauthorized(th.getMessage)
+        }
+      }}
+    }
+```
+
+# Websockets
+Finally, we come to websockets. Both sttp and uzhttp implement websockets, so how are they used? The following is a very brief example. uzhttp uses websockets via zio zstream. Apologies, this was hastily assembled to give an idea or what you could do rather than make any claim to best practice. In particular I am no expert on ZStream!
+
+This is the endPoint code:
+```scala
+  def agePerson(text: String): IO[HTTPError, Text] =
+    parseXmlString[Person](text).map { person =>
+      Text(writeXmlString(older(person)), true)
+    }.mapError(e => BadRequest(e.getMessage))
+
+
+  val agePeople: EndPoint[HRequest] =
+    for {
+      req <- webSocket.mapError(e => Some(e))
+      _ <- uriMethod(endsWith("wsIn"), Method.GET)
+      streamOut = Stream.flatten(req.frames.mapM(handleWebsocketFrame(agePerson))).unTake
+      response <- Response.websocket(req, streamOut).mapError(e => Some(e))
+    } yield response
+```
+Supporting code:
+```scala
+  def webSocket: ZIO[HRequest, HTTPError, WebsocketRequest] =
+    for {
+      r <- request
+      ws <- r match {
+        case wr: WebsocketRequest => IO.succeed(wr)
+        case x => IO.fail(BadRequest("not a websocket"))
+      }
+    } yield ws
+
+   def handleWebsocketFrame(textHandler: String => IO[HTTPError, Frame])
+                          (frame: Frame): UIO[Stream[HTTPError, Take[Nothing, Frame]]] = frame match {
+    case frame@Binary(data, _)       => UIO.succeed(Stream.empty)
+    case frame@Text(data, _)         => textHandler(data)
+        .either.map {
+          case Left(err) => Stream.fail(err)
+          case Right(f) => Stream(Take.Value(f))
+    }
+    case frame@Continuation(data, _) => UIO.succeed(Stream.empty)
+    case Ping => UIO(Stream(Take.Value(Pong)))
+    case Pong => UIO(Stream.empty)
+    case Close => UIO(Stream(Take.Value(Close), Take.End))
+  }
+```
+So first to explain the EndPOint code:
+
+The purpose of the EndPoint is to take an incoming Person and add 1 to the age, returning it as the websocket response.
+
+We call the webSocket function that takes the request and checks it is a valid websocket request (as opposed to an ordinary http one). Incoming data is on a stream. We provide a handler - in this case agePerson than takes a string and outputs a Text (a websocket Frame with text body). 
+
+handleWebsocketFrame - which only works for text frames in this example, deals with the stream stuff. Note that we're using Stream[HTTPError, Take[Nothing, Frame]]. There are also curious responses to Ping and Pong - which are ways that websockets maintain that there's still someone on the line.
+
+Test code here just does a single message, but sttp is well-documented and you should be able to figure out how to make a more extensive app.
+```scala
+  def sendPerson(person: Person, ws: WebSocket[Task]) = {
+    println(s"sending person $person")
+    ws.send(WebSocketFrame.text(writeXmlString(person)))
+  }
+
+  def next(ws: WebSocket[Task]): Task[Option[Person]] =
+    for {
+      et <- ws.receiveText()
+      personOpt <- et match {
+        case Right(t) => parseXmlString(t).map(Some(_))
+        case _ => IO.succeed(None)
+      }
+    } yield personOpt
+
+  val peopleAge = testM("test age people"){
+
+    for {
+      _ <- serverUp
+      response <- SttpClient.openWebsocket(basicRequest.get(uri"ws://localhost:8080/wsIn"))
+      _ = println(s"response is $response")
+      ws = response.result
+      sent <- sendPerson(joe, ws)
+      joeOlder <- next(ws)
+    } yield assert(joeOlder)(equalTo(Some(older(joe))))
+```
+
 That's it. Full source code avaialble at: [github](https://github.com/TimPigden/zio-http4s-examples)
 
 
