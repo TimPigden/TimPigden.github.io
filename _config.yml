@@ -4,3 +4,9 @@ show_downloads: true
 google_analytics:
 theme: jekyll-theme-cayman
 include: ['_pages', '_pages/zio-http4s']
+plugins:
+  - jekyll-feed
+title: Tim Pigden's scala blog
+description: Blog about various scala things I've leaned
+author: Tim Pigden
+
