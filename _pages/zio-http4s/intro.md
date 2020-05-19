@@ -42,3 +42,6 @@ The blog is broken into
 * [ZIO, http4s Part 2 - Testing with http4s Client](zio-http4s-part2.md).
 * [ZIO, http4s Part 3 - Adding Authentication](zio-http4s-part3.md).
 * [ZIO, http4s Part 4 - Custom Codecs](zio-http4s-part4.md).
+
+<a class="btn btn-rss" href="/feed.xml" target="_blank">RSS</a>
+
