@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem "github-pages", group: :jekyll_plugins, 'jekyll-feed'
+gem "github-pages", group: :jekyll_plugins
+gem 'jekyll-feed'
 
 gemspec
