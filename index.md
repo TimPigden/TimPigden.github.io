@@ -48,6 +48,7 @@ to generate schemas and read and write binary data using the Avro library.
 Blog articles covering use of zio-streams and other zio related subjects.
 [Article](_pages/zio-streams/intro.md)
 
+[RSS Feed](./feed.xml)
 
 
 
