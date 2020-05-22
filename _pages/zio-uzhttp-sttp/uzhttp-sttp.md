@@ -5,7 +5,7 @@ description: Using uzhttp with sttp for http and web sockets
 ---
 # ZIO-based Http Server and Client using uzhttp and sttp
 
-**NB this is for zio RC18-2. Currently waiting for libraries to catch up to upgrade to RC19**
+**NOW UPDATED TO RC19-2**
 
 A few months ago I wrote a blog on [using http4s from zio](../zio-http4s/intro.md) - which I've just updated to zio RC18-2
 
@@ -546,19 +546,21 @@ Finally, we come to websockets. Both sttp and uzhttp implement websockets, so ho
 
 This is the endPoint code:
 ```scala
-  def agePerson(text: String): IO[HTTPError, Text] =
-    parseXmlString[Person](text).map { person =>
-      Text(writeXmlString(older(person)), true)
-    }.mapError(e => BadRequest(e.getMessage))
-
-
-  val agePeople: EndPoint[HRequest] =
-    for {
-      req <- webSocket.mapError(e => Some(e))
-      _ <- uriMethod(endsWith("wsIn"), Method.GET)
-      streamOut = Stream.flatten(req.frames.mapM(handleWebsocketFrame(agePerson))).unTake
-      response <- Response.websocket(req, streamOut).mapError(e => Some(e))
-    } yield response
+    def agePerson(text: String): Stream[HTTPError, Take[Nothing, Text]] =
+      ZStream.unwrap {
+        parseXmlString[Person](text).bimap(err => BadRequest(err.getMessage),
+          person => Stream(Exit.succeed(Chunk(Text(writeXmlString(older(person)))))))
+      }
+  
+    val agePersonByOne: EndPoint[HRequest] =
+      for {
+        req <- webSocket.mapError(e => Some(e))
+        _ <- uriMethod(endsWith("wsPersonOneByOne"), Method.GET)
+  
+        streamOut = req.frames.map(handleWebsocketFrame(agePerson)).flatMap(_.collectWhileSuccess.flattenChunks)
+        response <- Response.websocket(req, streamOut).mapError(e => Some(e))
+      } yield response
+  }
 ```
 Supporting code:
 ```scala
@@ -571,21 +573,17 @@ Supporting code:
       }
     } yield ws
 
-   def handleWebsocketFrame(textHandler: String => IO[HTTPError, Frame])
-                          (frame: Frame): UIO[Stream[HTTPError, Take[Nothing, Frame]]] = frame match {
-    case frame@Binary(data, _)       => UIO.succeed(Stream.empty)
-    case frame@Text(data, _)         => textHandler(data)
-        .either.map {
-          case Left(err) => Stream.fail(err)
-          case Right(f) => Stream(Take.Value(f))
-    }
-    case frame@Continuation(data, _) => UIO.succeed(Stream.empty)
-    case Ping => UIO(Stream(Take.Value(Pong)))
-    case Pong => UIO(Stream.empty)
-    case Close => UIO(Stream(Take.Value(Close), Take.End))
+  def handleWebsocketFrame(textHandler: String => Stream[HTTPError, Take[Nothing, Frame]])
+                          (frame: Frame): Stream[HTTPError, Take[Nothing, Frame]] = frame match {
+    case frame@Binary(data, _) => Stream.empty
+    case frame@Text(data, _) => textHandler(data)
+    case frame@Continuation(data, _) => Stream.empty
+    case Ping => Stream(Exit.succeed(Chunk(Pong)))
+    case Pong => Stream.empty
+    case Close => Stream(Exit.succeed(Chunk(Close)), Take.End)
   }
 ```
-So first to explain the EndPOint code:
+So first to explain the EndPoint code:
 
 The purpose of the EndPoint is to take an incoming Person and add 1 to the age, returning it as the websocket response.
 
