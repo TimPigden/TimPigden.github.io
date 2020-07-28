@@ -206,7 +206,7 @@ GEM
       gemoji (~> 3.0)
       html-pipeline (~> 2.2)
       jekyll (~> 3.0)
-    json (2.2.0)
+    json (2.3.1)
     kramdown (1.17.0)
     liquid (4.0.0)
     listen (3.1.5)
@@ -276,6 +276,7 @@ PLATFORMS
 DEPENDENCIES
   github-pages
   html-proofer (~> 3.0)
+  jekyll-feed
   jekyll-theme-cayman!
   rubocop (~> 0.50)
   w3c_validators (~> 1.3)
