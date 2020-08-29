@@ -7,6 +7,8 @@ description: Using uzhttp with sttp for http and web sockets
 
 **NOW UPDATED TO ZIO 1.0.1**
 
+Note for 1.0.1 I have updated the tests slightly - reconfiguring how to turn sttp websocket into zio streams.
+
 A few months ago I wrote a blog on [using http4s from zio](../zio-http4s/intro.md) - which I've just updated to zio RC18-2
 
 In that blog I went into quite a lot of detail looking at authentication and at encoding, because both had proved time-consuming to get right.
