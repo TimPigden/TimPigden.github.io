@@ -591,7 +591,7 @@ The purpose of the EndPoint is to take an incoming Person and add 1 to the age, 
 
 We call the webSocket function that takes the request and checks it is a valid websocket request (as opposed to an ordinary http one). Incoming data is on a stream. We provide a handler - in this case agePerson than takes a string and outputs a Text (a websocket Frame with text body). 
 
-handleWebsocketFrame - which only works for text frames in this example, deals with the stream stuff. Note that we're using Stream[HTTPError, Take[Nothing, Frame]]. There are also curious responses to Ping and Pong - which are ways that websockets maintain that there's still someone on the line.
+handleWebsocketFrame - which only works for text frames in this example, deals with the stream stuff. There are also curious responses to Ping and Pong - which are ways that websockets maintain that there's still someone on the line.
 
 Test code here just does a single message, but sttp is well-documented and you should be able to figure out how to make a more extensive app.
 ```scala
@@ -600,7 +600,7 @@ Test code here just does a single message, but sttp is well-documented and you s
     ws.send(WebSocketFrame.text(writeXmlString(person)))
   }
 
-  def next(ws: WebSocket[Task]): Task[Option[Person]] =
+  def next(ws: WebSocket[Task]): Task[Option[Person]] = {
     for {
       et <- ws.receiveText()
       personOpt <- et match {
@@ -608,17 +608,19 @@ Test code here just does a single message, but sttp is well-documented and you s
         case _ => IO.succeed(None)
       }
     } yield personOpt
+  }
 
-  val peopleAge = testM("test age people"){
+  val ageOneAtATime = testM("test age people"){
 
     for {
       _ <- serverUp
-      response <- SttpClient.openWebsocket(basicRequest.get(uri"ws://localhost:8080/wsIn"))
+      response <- SttpClient.openWebsocket(basicRequest.get(uri"ws://localhost:8080/wsPersonOneByOne"))
       _ = println(s"response is $response")
       ws = response.result
       sent <- sendPerson(joe, ws)
       joeOlder <- next(ws)
     } yield assert(joeOlder)(equalTo(Some(older(joe))))
+  }
 ```
 
 That's it. Full source code avaialble at: [github](https://github.com/TimPigden/zio-http4s-examples)
