@@ -5,7 +5,7 @@ description: Using uzhttp with sttp for http and web sockets
 ---
 # ZIO-based Http Server and Client using uzhttp and sttp
 
-**NOW UPDATED TO RC19-2**
+**NOW UPDATED TO ZIO 1.0.1**
 
 A few months ago I wrote a blog on [using http4s from zio](../zio-http4s/intro.md) - which I've just updated to zio RC18-2
 

@@ -11,7 +11,7 @@ Essentially I'm writing up my own exploratory tests. I hope it's of use to you!
 I will attempt to keep the source code (though not necessarily the blogs) up-to-date. Please let me know with an issue on my github if it gets too far
 out of step.
 
-# uzhttp, sttp and ZIO
+# uzhttp, sttp and ZIO (ZIO 1.0.1)
 An article about using the new lightweight uzhttp server plus sttp client with ZIO
 [Article](_pages/zio-uzhttp-sttp/uzhttp-sttp.md)
 
